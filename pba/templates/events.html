@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}MusicConnect - Events{% endblock %}
+
+{% block content %}
+<div class="events-container">
+    <h2>Music Events</h2>
+    
+    {% if 'username' in session %}
+    <form method="POST" action="{{ url_for('events_page') }}" class="event-form">
+        <h3>Create New Event</h3>
+        <div class="form-group">
+            <label for="title">Event Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+        </div>
+
+        <button type="submit">Create Event</button>
+    </form>
+    {% endif %}
+
+    <div class="events-list">
+        <h3>Upcoming Events</h3>
+        {% if events %}
+            {% for event in events %}
+            <div class="event-card">
+                <h4>{{ event.title }}</h4>
+                <p class="event-date">{{ event.date }}</p>
+                <p class="event-location">📍 {{ event.location }}</p>
+                <p class="event-description">{{ event.description }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-events">No events scheduled yet. Be the first to create one!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
